@@ -9,14 +9,14 @@ import sys
 # Config
 # am I on OSX or Linux?
 uname = os.uname()[0]
-if uname = 'Linux':
-	cmd_start_screen_saver = 'gnome-screensaver-command -l'
+if uname == 'Linux':
+	cmd_start_screensaver = 'gnome-screensaver-command -l'
 	cmd_pause_music = 'ps -C banshee > /dev/null && banshee --pause'
-elif uname = 'Darwin':
+elif uname == 'Darwin':
 	# pause iTunes (note that this always pauses; if it's not playing, it has no effect).
 	cmd_pause_music = 'osascript -e \'tell application "iTunes" to pause\''
 	# lock screen (which is really just "start screensaver"; you need to configure screen saver to lock the screen when it starts).
-	cmd_start_screen_saver = '/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine'
+	cmd_start_screensaver = '/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine'
 else:
 	# do nothing.
 	print 'Unable to determine OS (Linux or Darwin). Aborting.'
