@@ -6,6 +6,24 @@ import time
 import os
 import sys
 
+# Config
+# am I on OSX or Linux?
+uname = os.uname()[0]
+if uname = 'Linux':
+	cmd_start_screen_saver = 'gnome-screensaver-command -l'
+	cmd_pause_music = 'ps -C banshee > /dev/null && banshee --pause'
+elif uname = 'Darwin':
+	# pause iTunes (note that this always pauses; if it's not playing, it has no effect).
+	cmd_pause_music = 'osascript -e \'tell application "iTunes" to pause\''
+	# lock screen (which is really just "start screensaver"; you need to configure screen saver to lock the screen when it starts).
+	cmd_start_screen_saver = '/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine'
+else:
+	# do nothing.
+	print 'Unable to determine OS (Linux or Darwin). Aborting.'
+	sys.exit(1)
+
+
+# Main
 while True:
 	try:
 		print "Trying to open a connection..."
@@ -16,8 +34,8 @@ while True:
 			print "Waiting for DTR change..."
 			fcntl.ioctl(s.fd, termios.TIOCMIWAIT, (termios.TIOCM_DSR))
 			# Do useful stuff
-			os.system('gnome-screensaver-command -l')
-			os.system('ps -C banshee > /dev/null && banshee --pause')
+			os.system(cmd_pause_music)
+			os.system(cmd_start_screensaver)
 			# Debounce
 			time.sleep(5)
 	except:

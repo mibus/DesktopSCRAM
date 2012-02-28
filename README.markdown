@@ -3,7 +3,7 @@ DesktopSCRAM
 
 A "SCRAM" button for my desktop.
 
-Stops Banshee from playing music (if it's running), and locks my screensaver.
+Stops Banshee or iTunes from playing music (if it's running), and starts my screensaver.
 
 Useful for grabbing a cup of coffee, or as a ZOMG-THE-BOSS-IS-BEHIND-ME button.
 
