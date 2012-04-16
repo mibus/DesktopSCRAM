@@ -22,6 +22,7 @@ else:
 	print 'Unable to determine OS (Linux or Darwin). Aborting.'
 	sys.exit(1)
 
+last_event = time.time()
 
 # Main
 while True:
@@ -33,11 +34,16 @@ while True:
 		while True:
 			print "Waiting for DTR change..."
 			fcntl.ioctl(s.fd, termios.TIOCMIWAIT, (termios.TIOCM_DSR))
+			# Debounce.
+			# (Also ignores events in the first 2s of runtime)
+			if time.time() - last_event < 2:
+				print "DTR changed, but ignored as a bounce"
+				continue
 			# Do useful stuff
+			print "DTR changed, activating!"
 			os.system(cmd_pause_music)
 			os.system(cmd_start_screensaver)
-			# Debounce
-			time.sleep(5)
+			last_event = time.time();
 	except:
 		# Something died. Wait and try again.
 		print "Failed. Will try again in a bit."
