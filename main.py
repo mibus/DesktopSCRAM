@@ -14,7 +14,9 @@ if uname == 'Linux':
 	cmd_pause_music = 'ps -C banshee > /dev/null && banshee --pause'
 elif uname == 'Darwin':
 	# pause iTunes (note that this always pauses; if it's not playing, it has no effect).
-	cmd_pause_music = 'osascript -e \'tell application "iTunes" to pause\''
+	# it's kinda ugly; if iTunes isn't already running, osascript will start it, then dutifully
+	# tell it to pause. Gee, thanks. This should stop that.
+	cmd_pause_music = '[[ -n `ps -ef | grep iTunes | grep -v grep | grep -v iTunesHelper` ]] && osascript -e \'tell application "iTunes" to pause\''
 	# lock screen (which is really just "start screensaver"; you need to configure screen saver to lock the screen when it starts).
 	cmd_start_screensaver = '/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine'
 else:
